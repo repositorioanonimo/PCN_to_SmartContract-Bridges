@@ -29,4 +29,4 @@ To transform a smart contract into a PCN model, simply right-click on the target
 
 The tool is implemented in the [***sce.generator.pcn***](https://github.com/alv4rob/PCN-SmartContract-Bridges/blob/main/Plugins/org.xtext.ui/src/sce/generator/pcn/) package and follows this architecture:
 
-![Smart Contract - PCN Bridge Architecture](https://github.com/alv4rob/PCN-SmartContract-Bridges/blob/main/Images/Oculto_SmartContract-PCN_Arch.png)
+![Smart Contract - PCN Bridge Architecture](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/Oculto_SmartContract-PCN_Arch.PNG)
