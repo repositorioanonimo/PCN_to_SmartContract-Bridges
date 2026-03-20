@@ -3,13 +3,13 @@
 This project is a set of tools that act as technological bridges between the business notation **PCN** (Process Chain Network) and **smart contracts**, aiming to bring this technology closer to business professionals. These tools enable the transformation of PCN diagrams into smart contracts written in Solidity and vice versa, both modeled under the MDE (Model-Driven Engineering) paradigm.
 
 The tools are integrated with the following plugins in the Eclipse IDE:
-* [**INNoVaServ**](https://github.com/franciscoperezb/innovaserv_toolkit): A modeling environment for service design that supports various business notations.
+* [**Anonymized modeling tool**](https://github.com/franciscoperezb/innovaserv_toolkit): A modeling environment for service design that supports various business notations.
 
-  The PCN model definition provided by this environment includes a package that integrates the **PCN - smart contract bridge** functionality, enabling the generation of smart contracts in the form of SmaC models (*.sce*) from PCN models (*.pcn*).
+  The PCN model definition provided by this environment includes a package that integrates the **PCN - smart contract bridge** functionality, enabling the generation of smart contracts in the form of Anonymized models (*.sce*) from PCN models (*.pcn*).
   
-* [**SmaC**](https://github.com/CommITURJC/SmaC): A textual DSL that supports the coding of smart contracts written in Solidity.
+* [**Anonymized DSL**](https://github.com/CommITURJC/SmaC): A textual DSL that supports the coding of smart contracts written in Solidity.
 
-  The definition of this DSL (SmaC model) includes a package that integrates the **smart contract - PCN bridge** functionality, allowing the generation of PCN models (*.pcn*) from smart contracts in the form of SmaC models (*.sce*) in a specific format.
+  The definition of this DSL (Anonymized model) includes a package that integrates the **smart contract - PCN bridge** functionality, allowing the generation of PCN models (*.pcn*) from smart contracts in the form of Anonymized models (*.sce*) in a specific format.
 
 ## PCN - Smart Contract bridge
 
