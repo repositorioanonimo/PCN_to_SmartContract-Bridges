@@ -15,7 +15,7 @@ The tools are integrated with the following plugins in the Eclipse IDE:
 
 To transform a PCN model into a smart contract, simply right-click on the target PCN model in Eclipse's *Package Explorer*, select ***Generate Solidity code***, and fill in the required data to generate the resulting *.sce* file in the *sce-gen* directory.
 
-![PCN - Smart Contract Bridge](https://github.com/alv4rob/PCN-SmartContract-Bridges/blob/main/Videos/PCN-SmartContract_Demo.gif)
+![PCN - Smart Contract Bridge](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Videos/PCN-SmartContract_Demo.gif)
 
 The tool is implemented in the [***pcn.generator.sce***](https://github.com/alv4rob/PCN-SmartContract-Bridges/blob/main/Plugins/es.kybele.elastic.models.pcn/src/pcn/generator/sce/) package and follows this architecture:
 
@@ -25,7 +25,7 @@ The tool is implemented in the [***pcn.generator.sce***](https://github.com/alv4
 
 To transform a smart contract into a PCN model, simply right-click on the target SmaC model in Eclipse's *Package Explorer* and select ***Generate PCN model*** to generate the resulting *.pcn* file in the *pcn-gen* directory.
 
-![Smart Contract - PCN Bridge](https://github.com/alv4rob/PCN-SmartContract-Bridges/blob/main/Videos/SmartContract-PCN_Demo.gif)
+![Smart Contract - PCN Bridge](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Videos/SmartContract-PCN_Demo.gif)
 
 The tool is implemented in the [***sce.generator.pcn***](https://github.com/alv4rob/PCN-SmartContract-Bridges/blob/main/Plugins/org.xtext.ui/src/sce/generator/pcn/) package and follows this architecture:
 
