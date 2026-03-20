@@ -1,0 +1,839 @@
+grammar org.xtext.SmaC with org.eclipse.xtext.common.Terminals
+
+generate smaC "http://www.xtext.org/SmaC"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+/*Hay cuatro cardinalidades posibles diferentes:
+ * exactamente uno (el predeterminado, ningún operador)
+ * cero o uno (operador ?)
+ * cero o más (operador *)
+ * uno o más (operador +)
+ */
+
+File:
+	version=Version
+	experimentalVersion = ExperimentalVersion?
+	library+=Library*
+	imports += Import*
+	interfaces += Interface*
+	abstractContracts += AbstractContract*
+	contracts += Contract+
+;
+
+Version:
+	"pragma solidity" symbol=('^'|'>'|">=") numberVersion=NUMVERSION (symbolComparation=('<'|"<=") numberVersion2=NUMVERSION)? SEMICOLON EOLINE?
+;
+
+ExperimentalVersion:
+	"pragma experimental" ("ABIEncoderV2"|"SMTChecker") SEMICOLON EOLINE?
+;
+
+
+Library:
+	"library" name = Identifier OPENKEY 
+		structs += PersonalizedStruct*
+		enums += Enum*
+		functions += Clause*
+	CLOSEKEY
+;
+
+Import:
+	"import" name = SyntaxExpression SEMICOLON EOLINE? |"import" ID "as" alias=Identifier "from" name = SyntaxExpression SEMICOLON EOLINE? | "import" name = SyntaxExpression "as" alias = Identifier SEMICOLON EOLINE?
+;
+
+Element:
+	Interface|Contract|AbstractContract
+;
+
+Interface returns Interface:
+	"interface" name = Identifier OPENKEY EOLINE?
+		interfaceEvents += Event* 
+		interfaceFunction += DeclarationFunctionInterface+ 
+	CLOSEKEY EOLINE?
+;
+
+DeclarationFunctionInterface:
+	"function" name = Identifier OPENPARENTHESIS inputParams += InputParam* CLOSEPARENTHESIS "external"? modifier=("view"|"payable")?  (RETURNS OPENPARENTHESIS outputParams += OutputParam CLOSEPARENTHESIS)? SEMICOLON EOLINE?
+;
+
+
+MSGVariables:
+	(MSGSENDER | MSGDATA | MSGSIG | MSGGAS | MSGVALUE) (DOT Identifier (OPENPARENTHESIS (Identifier|NumberExpression)? CLOSEPARENTHESIS)?)?
+;
+
+BlockVariables:	
+	(BCKDIFFICULTY  | BCKNUMBER  | BCKCOINBASE | BCKTIMESTAMP | BCKGASLIMIT | BCKBLOCKHASH) (OPENPARENTHESIS (Identifier|NumberExpression) CLOSEPARENTHESIS)?
+;
+
+TxVariables:
+	(TXAMOUNT | TXGASLEFT |TXGASPRICE | TXORIGIN)  (OPENPARENTHESIS (Identifier|NumberExpression) CLOSEPARENTHESIS)?
+;
+
+DeclarationFunctionAbstractContract:
+	"function" name = Identifier OPENPARENTHESIS inputParams += InputParam* CLOSEPARENTHESIS visibility=Visibility  modifier=("view"|"payable")?  virtual=VIRTUAL? (RETURNS OPENPARENTHESIS outputParams += OutputParam CLOSEPARENTHESIS)? SEMICOLON EOLINE?
+;
+
+AbstractContract:
+	"abstract contract" name = Identifier ("is" (superType += [Element] COMMA?)*)? OPENKEY EOLINE? 	
+		modifiers += Modifier*
+		events += Event*
+		errors += Error*
+		clauses += DeclarationFunctionAbstractContract*
+	CLOSEKEY EOLINE?
+;
+
+Contract:
+	"contract" name = Identifier ("is" (superType += [Element] COMMA?)*)? OPENKEY EOLINE? 	
+		(localEnumerators += Enum | localProperties += Properties | localMappingProperties += Mapping | structs += PersonalizedStruct | structUser = User | structCompany = Company | "using" libraries += [Library]+ "for" (Identifier|IdentifierValueExpression|BracketExpression|'*'|SingularType) SEMICOLON EOLINE?)*
+		constructors += Constructor*
+		modifiers += Modifier*
+		events += Event*
+		errors += Error*
+		clauses += Clause*
+	CLOSEKEY EOLINE?
+;
+
+Constructor:
+	"constructor" OPENPARENTHESIS inputParams += InputParam* CLOSEPARENTHESIS type = ("public"|"internal")? (constructorContractInherance +=[Contract] OPENPARENTHESIS  inputParamsConstructorContractInherance += InputParam* CLOSEPARENTHESIS)? payable="payable"? OPENKEY EOLINE?	
+	 	((restrictions += (Restriction|RestrictionGas|Assert)|conditions += Condition | undeterminedLoops += UnDeterminedLoop  | determinedLoops += ForLoop| attributesInitialization += (Expression) SEMICOLON?))*
+	CLOSEKEY EOLINE?
+;
+
+Event:
+	"event" name = Identifier OPENPARENTHESIS (inputParams += InputParam)* CLOSEPARENTHESIS SEMICOLON EOLINE? //Falta incluir el "indexed" dentro de los parámetros de entrada del evento
+;
+
+Error:
+	"error" name = Identifier OPENPARENTHESIS (inputParams += InputParam)* CLOSEPARENTHESIS SEMICOLON EOLINE? //Falta incluir el "indexed" dentro de los parámetros de entrada del evento
+;
+
+Attributes returns ecore::EObject:
+	 DataType
+;
+
+Modifier:
+	"modifier" name = Identifier OPENPARENTHESIS inputParams += InputParam* CLOSEPARENTHESIS OPENKEY EOLINE?
+		conditionRestricion += (Restriction|RestrictionGas|Assert)*
+		(expressionsAssignValueBeforeMark += AssignExpression SEMICOLON? | conditionsBeforeMark += Condition)*
+		"_;"
+		(expressionsAssignValueAfterMark += AssignExpression SEMICOLON? | conditionsAfterMark += Condition)*
+	CLOSEKEY EOLINE?
+;
+
+RestrictionClause:
+	Restriction|RestrictionGas|Assert
+;
+
+Restriction:
+	"require" OPENPARENTHESIS (((LogicalUnaryOperator? expr1=(SyntaxExpression|Identifier|NumberExpression|ArithmeticalExpression|BracketExpression|"now"|IdentifierDotExpression|MSGVariables|TypeCastingExpression|BCKTIMESTAMP|CallFunctionExpression|BoolValueExpression)| OPENPARENTHESIS ( LogicalUnaryOperator? expr1=(BracketExpression|IdentifierDotExpression|SyntaxExpression|Identifier|NumberExpression|ArithmeticalExpression|MSGVariables|BlockVariables|"now"|TypeCastingExpression|CallFunctionExpression)) CLOSEPARENTHESIS) 
+	(operator=ComparationOperator expr2=(SyntaxExpression|Identifier|NumberExpression|IdentifierDotExpression|ArithmeticalExpression|MSGVariables|"now"|BracketExpression|TypeCastingExpression|CallFunctionExpression|BoolValueExpression))?
+	) (COMMA message=SyntaxExpression)?) CLOSEPARENTHESIS SEMICOLON EOLINE? 
+;
+
+RestrictionGas:
+	"require" OPENPARENTHESIS expr1=(Identifier|NumberExpression|BracketExpression|IdentifierDotExpression|MSGVariables) operator=ComparationOperator amount=NumberExpression typeCoin=Coin (COMMA message=SyntaxExpression)? CLOSEPARENTHESIS SEMICOLON EOLINE?
+;
+
+Assert:
+	"assert" OPENPARENTHESIS (((LogicalUnaryOperator? expr1=(SyntaxExpression|Identifier|NumberExpression|ArithmeticalExpression|BracketExpression|MSGSENDER|MSGVALUE|"now"|IdentifierValueExpression) | OPENPARENTHESIS ( LogicalUnaryOperator? expr1=(SyntaxExpression|Identifier|NumberExpression|ArithmeticalExpression|MSGSENDER|MSGVALUE|BlockVariables|"now")) CLOSEPARENTHESIS) 
+		(operator=ComparationOperator expr2=(SyntaxExpression|Identifier|NumberExpression|ArithmeticalExpression|MSGSENDER|MSGVALUE|"now"))?
+	)) CLOSEPARENTHESIS SEMICOLON EOLINE? 
+;
+
+DataType returns ecore::EDataType:
+	Enum 
+;
+
+
+Mapping:
+	type=MappingDeclaration array=Array? constant=CONSTANT? visibility = Visibility? storageData = StorageData? nameMapping=Identifier ('=' inicialization = (Identifier|NumberExpression|SyntaxExpression))? SEMICOLON EOLINE?
+;
+
+MappingDeclaration:
+	type = "mapping" OPENPARENTHESIS key=SingularType "=>" (value=(SingularType|"User"|"Company"|Identifier) array=Array?|valueIdentifier=(MappingDeclaration) array=Array?) CLOSEPARENTHESIS
+;
+
+
+PersonalizedStruct:
+	"struct" name = Identifier OPENKEY EOLINE?
+	 	properties += (Properties)*
+	 	mapping += (Mapping)*
+	 	structs += (PersonalizedStruct)*
+	CLOSEKEY EOLINE?
+;
+
+User:
+	{User} "struct" name = "User" OPENKEY EOLINE?
+	 	"address " nameAttributeAddress = Identifier  SEMICOLON EOLINE?
+	 	"string" nameAttributeUser = Identifier SEMICOLON EOLINE?
+	 	"string" nameAttributeSurnameUser = Identifier  SEMICOLON EOLINE?
+	 	"string" emailAttributeUser = Identifier SEMICOLON EOLINE?
+	 	 properties += (Properties)*
+	 	 mapping += (Mapping)*
+	 	 structs += (PersonalizedStruct)*
+	CLOSEKEY EOLINE?
+;
+
+Company:
+	{Company} "struct" name = "Company" OPENKEY EOLINE?
+	 	"address " nameAttributeAddress = Identifier  SEMICOLON EOLINE?
+	 	"string" nameAttributeCompany = Identifier  SEMICOLON EOLINE?
+	 	"string" nameAttributeCity = Identifier   SEMICOLON EOLINE?
+	 	"string" emailAttributeCompany = Identifier  SEMICOLON EOLINE?		
+		properties += (Properties)*
+	 	mapping += (Mapping)*
+	 	structs += (PersonalizedStruct)*
+	CLOSEKEY EOLINE?
+;
+
+Enum:
+	"enum" nameEnumerator=Identifier OPENKEY (values += (Identifier) COMMA?)* CLOSEKEY EOLINE?
+;
+
+SingularType:
+	
+	TypeUint| TypeInt | TypeAddress | TypeDouble | TypeBool | TypeBytes |TypeString
+;
+
+TypeUint:
+	"uint"|"uint2"|"uint3"|"uint4"|"uint5"|"uint6"|"uint8"|"uint10"|"uint12"|"uint14"|"uint15"|"uint16"|"uint18"|"uint20"|"uint22"|"uint24"|"uint25"|"uint28"|"uint30"|"uint32"|"uint34"|"uint35"|"uint36"|"uint38"|"uint40"|"uint48"|"uint56"|"uint64"| "uint80"|"uint88"|"uint96"|"uint104"|"uint112"|"uint114"|"uint120"|"uint128" |"uint160"|"uint200"|"uint256"
+;
+
+TypeAddress:
+	"address " | "address payable" 
+;
+
+
+TypeDouble:
+	"double"
+;
+
+TypeBool:
+	"bool"
+;
+
+TypeInt:
+	"int" |"int2"|"int3"|"int4"|"int5"|"int6"|"int8"|"int10"|"int12"|"int14"|"int15"|"int16"|"int18"|"int20"|"int22"|"int24"|"int28"|"int30"|"int32"|"int34"|"int35"|"int36"|"int38"|"int40"|"int48"|"int56"|"int64"|"int80"|"int88"|"int96"|"int104"|"int128"|"int160"|"int200"|"int256"
+;
+
+TypeBytes:
+	"bytes"|"bytes2"|"bytes3"|"bytes4"|"bytes5"|"bytes6"|"bytes7"|"bytes8"|"bytes10"|"bytes12"|"bytes14"|"bytes16"|"bytes18"|"bytes20"|"bytes22"|"bytes24"|"bytes25"|"bytes26"|"bytes28"|"bytes30"|"bytes32"
+;
+
+TypeString:
+	"string"
+;
+
+
+enum InputModifier:
+	VIEW = "view"| PURE = "pure"| PAYABLE = "payable"
+;
+
+enum StorageData:
+	MEMORY = "memory"| STORAGE = "storage" | CALLDATA = "calldata"
+;
+
+enum Visibility:
+	PUBLIC = "public"| PRIVATE = "private" | INTERNAL = "internal" | EXTERNAL = "external"
+;
+
+enum Coin:
+	ETHER = "ether"| WEI = "wei"| GWEI = "gwei"| PWEI = "pwei" | FINNEY = "finney" | SZABO = "szabo"
+;
+
+enum LoopOperator:
+	DECREMENT = "--" | INCREMENT = "++"
+;
+
+enum ComparationOperator:
+	GreatherThan = '>'|LessThan = '<'| GreatherOrEqualThan = ">="| LessOrEqualThan = "<="| EqualTo = "=="| NotEqualTo = "!="
+;
+
+enum LogicalPairOperator:
+	AND = "&&"| OR = "||"
+;
+
+enum ArithmeticalOperator:
+	ADD = '+' | SUBTRACT = '-'| MULTIPLY = '*'| DIVIDE = '/' | MODULO = '%'
+;
+
+enum AssignmentOperator:
+	ASSIGNMENT = '=' | ADDASSIGNMENT = "+="| LESSASSIGNMENT = "-="| MULTIPLYASSIGNMENT = "*="| DIVIDEASSIGNMENT = "/=" | MODULOASSIGNMENT = "%="
+;
+
+enum TimeUnit:
+	SECONDS = "seconds"  | MINUTES = "minutes" | HOURS = "hours" |  DAYS = "days" |  WEEKS = "weeks" |  YEARS = "years" 
+;
+
+Identifier returns ecore::EString:
+	(ID|CHAR)
+;
+
+terminal MSGSENDER returns ecore::EString:
+	"msg.sender" 
+;
+
+terminal MSGBALANCE returns ecore::EString:
+	"msg.balance"
+;
+
+terminal MSGVALUE returns ecore::EString:
+	"msg.value"
+;
+
+terminal MSGGAS returns ecore::EString:
+	"msg.gas"
+;
+
+terminal MSGDATA returns ecore::EString:
+	"msg.data"
+;
+
+terminal MSGSIG returns ecore::EString:
+	"msg.sig"
+;
+
+terminal BCKDIFFICULTY returns ecore::EString:
+	"block.difficulty"
+;
+
+terminal BCKNUMBER returns ecore::EString:
+	"block.number"
+;
+
+terminal BCKTIMESTAMP returns ecore::EString:
+	"block.timestamp"
+;
+
+terminal BCKCOINBASE returns ecore::EString:
+	"block.coinbase"
+;
+
+terminal BCKGASLIMIT returns ecore::EString:
+	"block.gaslimit"
+;
+
+terminal BCKBLOCKHASH returns ecore::EString:
+	"block.blockhash"
+;
+
+terminal TXAMOUNT returns ecore::EString:
+	"tx.amount"
+;
+
+terminal TXGASLEFT returns ecore::EString:
+	"tx.gasleft"
+;
+
+terminal TXGASPRICE returns ecore::EString:
+	"tx.gasprice"
+;
+
+terminal TXORIGIN returns ecore::EString:
+	"tx.origin"
+;
+
+terminal NUMVERSION returns ecore::EString:
+	'0' DOT ('0'..'9') DOT ('0'..'9')+
+;
+
+terminal FLOAT returns ecore::EFloat:
+	('0'..'9')+'.'('0'..'9')+
+;
+
+terminal CHAR returns ecore::EChar:
+	('a'..'z')|('A'..'Z')
+;
+
+terminal BOOLVALUE returns ecore::EBoolean:
+	"true"|"false"
+;
+
+terminal CLOSEKEY returns ecore::EChar:
+	'}'
+;
+
+terminal OPENKEY returns ecore::EChar:
+	'{'
+;
+
+terminal OPENPARENTHESIS returns ecore::EChar:
+	'('
+;
+
+terminal CLOSEPARENTHESIS returns ecore::EChar:
+	')'
+;
+
+terminal EOLINE returns ecore::EString:
+	"/n"
+;
+
+terminal SEMICOLON returns ecore::EChar:
+	';'
+;
+
+terminal DOT returns ecore::EChar:
+	'.'
+;
+
+terminal IF returns ecore::EString:
+	"if"
+;
+
+terminal ELSE returns ecore::EString:
+	"else"
+;
+
+terminal RETURN returns ecore::EString:
+	"return"
+;
+
+terminal RETURNS returns ecore::EString:
+	"returns"
+;
+
+terminal COMMA returns ecore::EChar:
+	','
+;
+
+OverrideModifier:
+  {OverrideModifier} "override" (OPENPARENTHESIS inputparamsOverride += InputParam* CLOSEPARENTHESIS)
+;
+
+terminal EMIT returns ecore::EString:
+	"emit"
+;
+
+terminal BREAK returns ecore::EString:
+	"break" SEMICOLON
+;
+
+terminal CONTINUE returns ecore::EString:
+	"continue" SEMICOLON
+;
+
+terminal NEW returns ecore::EString:
+	"new"
+;
+
+terminal VIRTUAL returns ecore::EString:
+	"virtual"
+;
+
+terminal CONSTANT returns ecore::EString:
+	"constant"
+;
+
+terminal HEXEXPRESSION returns ecore::EString:
+	"hex" STRING
+;
+
+terminal ADDRESSEXPRESION returns ecore::EString:
+	"0x"(('a'..'f')|('0'..'9')|('A'..'F'))*
+;
+
+terminal INDEXED returns ecore::EString:
+	"indexed"
+;
+
+Array:
+	(("[]" | '[' (INT) ']')( "[]" | '[' (INT)  ']')*)
+;
+
+
+Properties:
+	PropertyString|PropertyBoolean|PropertyInteger|PropertyUInteger|PropertyFloat|PropertyAddress|PropertyBytes|PropertyIdentifier|PropertyUser|PropertyCompany
+;
+
+PropertyString:
+	type = TypeString array=Array? constant=CONSTANT? visibility = Visibility? (storageData = StorageData)? name = Identifier ('=' inicialization = (SyntaxExpression|Identifier|IdentifierDotExpression|BracketExpression|CallFunctionExpression|CreateStringObjectExpression))? SEMICOLON EOLINE? 
+;
+
+PropertyInteger:
+	type = TypeInt array=Array? constant=CONSTANT? visibility = Visibility? (storageData = StorageData)? name = Identifier ('=' inicialization =  (NumberExpression|Identifier|IdentifierDotExpression|ArithmeticalExpression|"now"|BracketExpression|TypeCastingExpression|CallFunctionExpression|CreateIntObjectExpression))? SEMICOLON EOLINE? 
+;
+
+PropertyFloat:
+	type = "float" array=Array? constant=CONSTANT? visibility = Visibility? (storageData = StorageData)? name = Identifier  ('=' inicialization =  (NumberExpression|Identifier|IdentifierDotExpression|ArithmeticalExpression|"now"|BracketExpression|TypeCastingExpression|CallFunctionExpression))? SEMICOLON EOLINE? 
+;
+
+PropertyUInteger:
+	type = TypeUint array=Array? constant=CONSTANT? visibility = Visibility?  (storageData = StorageData)? name = Identifier  ('=' inicialization =  (NumberExpression|Identifier|IdentifierValueExpression|ArithmeticalExpression|"now"|BracketExpression|BCKTIMESTAMP|TypeCastingExpression|CallFunctionExpression|CreateUintObjectExpression|ArrayExpression))? SEMICOLON EOLINE? 
+;
+
+PropertyBoolean:
+	type = TypeBool array=Array? constant=CONSTANT? visibility = Visibility? (storageData = StorageData)? name = Identifier ('=' inicialization = (Identifier|IdentifierValueExpression|BoolValueExpression|CallFunctionExpression|CreateBoolObjectExpression) )? SEMICOLON EOLINE? 
+;
+
+PropertyAddress:
+	type = TypeAddress array=Array? constant=CONSTANT? visibility = Visibility? (storageData = StorageData)? name = Identifier ('=' inicialization = (Identifier|IdentifierValueExpression|ADDRESSEXPRESION|MSGSENDER|BracketExpression|TypeCastingExpression|CallFunctionExpression|CreateAddressObjectExpression))? SEMICOLON EOLINE? 
+;
+
+PropertyIdentifier:
+	type = (Identifier|IdentifierValueExpression) array=Array? constant=CONSTANT? visibility = Visibility? (storageData = StorageData)? (name= Identifier)  ('=' inicialization = (Identifier|IdentifierValueExpression|StructInicializationKeyExpression|BracketExpression))? SEMICOLON EOLINE? 
+;
+
+PropertyUser:
+	type = "User" array=Array? constant=CONSTANT? visibility = Visibility? (storageData = StorageData)? (name= Identifier)  ('=' inicialization = (Identifier|IdentifierValueExpression|BracketExpression|PersonalizedTypeUserInicialization|NewPersonalizedTypeUserInicialization))? SEMICOLON EOLINE? 
+;
+
+PropertyCompany:
+	type = "Company" array=Array? constant=CONSTANT? visibility = Visibility? (storageData = StorageData)? (name= Identifier)  ('=' inicialization = (Identifier|IdentifierValueExpression|BracketExpression|PersonalizedTypeCompanyInicialization|NewPersonalizedTypeCompanyInicialization))? SEMICOLON EOLINE? 
+;
+
+PropertyBytes:
+	 type = TypeBytes array=Array? constant=CONSTANT? visibility = Visibility? (storageData = StorageData)? (name = Identifier) ('=' inicialization = (HEXEXPRESSION|Identifier|IdentifierValueExpression|ADDRESSEXPRESION|AbyExpression|TypeCastingExpression|CallFunctionExpression|CreateByteObjectExpression|Sha256Expression))? SEMICOLON EOLINE?
+;
+
+
+InputParam:
+	//(((type =(SingularType|"Company"|"User"|Identifier|IdentifierValueExpression)) array=Array? indexed=("indexed"|"calldata")? storageData=StorageData? COMMA?) | MappingDeclaration)? valueInput = (SyntaxExpression|Identifier| NumberExpression | IdentifierValueExpression | MSGVariables | BlockVariables | TxVariables | ComparationExpression | ArithmeticalComparationExpression| ArithmeticalExpression | BoolValueExpression ) COMMA?	
+	((type = (SingularType|"Company"|"User"|Identifier) array=Array? indexed=INDEXED? storageData = StorageData?  valueInput = (Identifier | IdentifierDotExpression)) | (valueInput = (Identifier | IdentifierDotExpression| MSGVariables | BlockVariables | TxVariables |SyntaxExpression| NumberExpression|ArithmeticalExpression | BoolValueExpression|ArithmeticalComparationExpression|CoinExpression) |  MappingDeclaration)) COMMA?
+;
+
+
+OutputParam:
+	 (((type = (SingularType|"Company"|"User"|Identifier)) array=Array?  (storageData = StorageData)? value = Identifier?) | {OutputParam} value = (ComparationExpression|ArithmeticalComparationExpression|MSGVariables|IdentifierDotExpression|Identifier|ArithmeticalExpression)) COMMA? 
+;
+
+Clause:
+	  "function" name = Identifier OPENPARENTHESIS inputParams += InputParam* CLOSEPARENTHESIS constant=CONSTANT? virtual=VIRTUAL? visibilityAccess = Visibility  (personalizedModifier += [Modifier] (OPENPARENTHESIS inputParamsModifier += InputParam* CLOSEPARENTHESIS)?)*  predefinedModifier=InputModifier?  override=OverrideModifier?
+	  (RETURNS OPENPARENTHESIS outputParams += OutputParam* CLOSEPARENTHESIS)? OPENKEY EOLINE?
+	   		(restriction += RestrictionClause  | conditions += Condition | properties += Properties | mappingProperties += Mapping  | undeterminedloops += UnDeterminedLoop  | determinedloops += ForLoop
+	   		 | expressions += Expression EOLINE? | predefinedFunctions += PredefinedFunctions | (EMIT event += [Event]+ OPENPARENTHESIS inputParamsEvent+=InputParam* CLOSEPARENTHESIS SEMICOLON EOLINE?)
+   		)* 	
+	  CLOSEKEY EOLINE?
+;
+
+
+
+Expression returns ecore::EString:
+	(NegationExpression|SyntaxExpression|TypeCastingExpression|CreateObjectExpression|Unchecked
+	TupleExpression|ReturnExpression|ComparationExpression|ArithmeticalComparationExpression|
+	ArithmeticalExpression|LogicalComparationExpression|IncrementLoopExpression|
+	DecrementLoopExpression|TimeExpression|ShiftExpression|RevertExpression|
+	BitwiseExpression|AssignExpressionTuple|AssignExpression|VarExpression|CallFunctionExpression|
+	BracketExpression|AssemblyExpression|DelimiterExpression|DeleteExpression|MSGVariables|ParenthesisExpression|PayableExpression) SEMICOLON? 
+;
+
+DelimiterExpression:
+	"_;"
+;
+
+
+
+HexadecimalExpression returns ecore::EString:
+	 HEXEXPRESSION
+;
+
+BoolValueExpression returns ecore::EString:
+	 BOOLVALUE
+;
+
+PredefinedFunctions returns ecore::EString:
+     CryptographycFunctions|Selfdestruct
+;
+
+Selfdestruct:
+	"selfdestruct" OPENPARENTHESIS (MSGVariables|Identifier|BracketExpression) CLOSEPARENTHESIS SEMICOLON EOLINE? 
+;
+
+CryptographycFunctions:
+	KeccackFunction|Sha256Expression|Sha3Expression
+;
+
+KeccackFunction:
+	"keccak256" OPENPARENTHESIS (TypeCastingExpression|SyntaxExpression|AbyExpression|Identifier|BracketExpression) CLOSEPARENTHESIS  ('[' INT ']')* 
+;
+
+Sha256Expression:
+	"sha256" OPENPARENTHESIS (Identifier COMMA?)* CLOSEPARENTHESIS  | "sha256" OPENPARENTHESIS AbyExpression CLOSEPARENTHESIS 
+;
+
+Sha3Expression:
+	"sha3" OPENPARENTHESIS (Identifier COMMA?)* CLOSEPARENTHESIS 
+;
+
+AbyExpression:
+	AbyEncode|AbyEncodedPacked|AbyEncodeWithSelector|AbyEncodeWithSignature|AbyDecode
+;
+
+AbyEncode:
+	("abi.encode") OPENPARENTHESIS ((Identifier|IdentifierValueExpression|MSGVariables|SyntaxExpression) COMMA?)* CLOSEPARENTHESIS
+;
+
+AbyEncodedPacked:
+	("abi.encodePacked") OPENPARENTHESIS ((Identifier|IdentifierValueExpression|MSGVariables|SyntaxExpression) COMMA?)* CLOSEPARENTHESIS
+;
+
+AbyDecode:
+	("abi.decode") OPENPARENTHESIS ((Identifier|IdentifierValueExpression|MSGVariables|SyntaxExpression) COMMA?)* CLOSEPARENTHESIS	
+;
+
+AbyEncodeWithSignature:
+	("abi.encodeWithSignature") OPENPARENTHESIS ((Identifier|IdentifierValueExpression|MSGVariables|SyntaxExpression) COMMA?)* CLOSEPARENTHESIS
+	
+;
+
+AbyEncodeWithSelector:
+	("abi.encodeWithSelector") OPENPARENTHESIS ((Identifier|IdentifierValueExpression|MSGVariables|SyntaxExpression) COMMA?)* CLOSEPARENTHESIS	
+;
+
+AssignExpressionTuple returns ecore::EString:
+	OPENPARENTHESIS (SingularType? Identifier COMMA?)+ CLOSEPARENTHESIS AssignValueExpression
+;
+
+Unchecked:
+	"unchecked" OPENKEY Expression? CLOSEKEY
+;
+
+AssignExpression returns ecore::EString:
+	(TypeCastingExpression |BracketExpression|Identifier ("memory"|"storage")? Identifier|IdentifierValueExpression ("memory"|"storage")? Identifier | IdentifierDotExpression |Identifier) AssignValueExpression
+;
+
+AssignValueExpression:
+	('=' | '|=' | '^=' | '&=' | '<<=' | '>>=' | '+=' | '-=' | '*=' | '/=' | '%=') (Identifier (OPENPARENTHESIS ((Identifier|BracketExpression|IdentifierDotExpression|MSGSENDER) COMMA?)* CLOSEPARENTHESIS)? |BOOLVALUE|TimeExpression|CoinExpression|SyntaxExpression|NumberExpression|ArithmeticalExpression|TypeCastingExpression|TupleExpression|CreateObjectExpression|HexadecimalExpression|ADDRESSEXPRESION| IdentifierDotExpression |MSGVariables|"now"|BracketExpression|BCKTIMESTAMP|BCKNUMBER|PersonalizedTypeCompanyInicialization|PersonalizedTypeUserInicialization|NewPersonalizedTypeCompanyInicialization|NewPersonalizedTypeUserInicialization|ArrayExpression) 
+;
+
+ArrayExpression:
+	'[' ((Identifier|IdentifierValueExpression|TypeCastingExpression|NumberExpression|STRING|BOOLVALUE|ADDRESSEXPRESION|HEXEXPRESSION|ArithmeticalExpression) COMMA? )*  ']'
+;
+
+CoinExpression returns ecore::EString:
+	(INT|FLOAT|Identifier) ("ether" | "gwei" | "pwei" | "wei" | "finney" | "szabo" )
+;
+
+CreateObjectExpression returns ecore::EString:
+	NEW (Identifier) ('[' INT? ']')* OPENPARENTHESIS ((SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables) COMMA?)* CLOSEPARENTHESIS
+;
+
+CreateAddressObjectExpression returns ecore::EString:
+	NEW ("address") ('[' INT? ']')* OPENPARENTHESIS ((SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables) COMMA?)* CLOSEPARENTHESIS
+;
+
+CreateUintObjectExpression returns ecore::EString:
+	NEW (TypeUint) ('[' INT? ']' |"[]")* OPENPARENTHESIS ((SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables) COMMA?)* CLOSEPARENTHESIS
+;
+
+CreateIntObjectExpression returns ecore::EString:
+	NEW (TypeInt) ('[' INT? ']')* OPENPARENTHESIS ((SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables) COMMA?)* CLOSEPARENTHESIS
+;
+
+CreateBoolObjectExpression returns ecore::EString:
+	NEW (TypeBool) ('[' INT? ']')* OPENPARENTHESIS ((SyntaxExpression|Identifier|IdentifierValueExpression|BracketExpression|MSGVariables) COMMA?)* CLOSEPARENTHESIS
+;
+
+CreateStringObjectExpression returns ecore::EString:
+	NEW (TypeString) ('[' INT? ']')* OPENPARENTHESIS ((SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables) COMMA?)* CLOSEPARENTHESIS
+;
+
+CreateByteObjectExpression returns ecore::EString:
+	NEW (TypeBytes) ('[' INT? ']')* OPENPARENTHESIS ((SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables) COMMA?)* CLOSEPARENTHESIS
+;
+
+VarExpression returns ecore::EString:
+	"var" Identifier AssignValueExpression? 
+;
+
+LogicalUnaryOperator returns ecore::EString:
+	 "!"
+;
+
+NegationExpression returns ecore::EString:
+	LogicalUnaryOperator (Identifier|SyntaxExpression|MSGVariables|"now"|IdentifierValueExpression|BracketExpression)	
+;
+
+SyntaxExpression returns ecore::EString:
+	STRING  
+;
+
+TypeCastingExpression returns ecore::EString:
+	(SingularType|"type"|"address") OPENPARENTHESIS ((SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|Identifier|NumberExpression|IdentifierDotExpression|MSGSENDER|"now") COMMA?)* CLOSEPARENTHESIS  (DOT Identifier)? 
+;
+
+PayableExpression returns ecore::EString:
+	"payable" (OPENPARENTHESIS ((STRING|Identifier|IdentifierDotExpression|INT|BOOLVALUE|MSGVariables|HEXEXPRESSION|ADDRESSEXPRESION|"now"|TypeCastingExpression) COMMA?)* CLOSEPARENTHESIS) (DOT Expression)?	
+;
+
+
+NewPersonalizedTypeUserInicialization:
+	NEW? ("User"|Identifier|"Company") ('[' INT? ']')* OPENPARENTHESIS ((((SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables|BOOLVALUE) COMMA?)*)|(OPENKEY FieldAssign (COMMA? FieldAssign)* CLOSEKEY)) CLOSEPARENTHESIS
+;
+
+FieldAssign:
+	Identifier ":" (SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables|BOOLVALUE)
+;
+
+NewPersonalizedTypeCompanyInicialization:
+	NEW? ("Company") ('[' INT? ']')*  OPENPARENTHESIS ((((SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables|BOOLVALUE) COMMA?)*)|(OPENKEY FieldAssign (COMMA? FieldAssign)* CLOSEKEY)) CLOSEPARENTHESIS
+;
+
+/* */
+PersonalizedTypeUserInicialization:
+	("User") ('[' INT? ']')* OPENPARENTHESIS ((
+		(SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables|BOOLVALUE) 
+		COMMA?)*)|(OPENKEY FieldAssign (COMMA? FieldAssign)* CLOSEKEY) CLOSEPARENTHESIS
+;
+
+PersonalizedTypeCompanyInicialization:
+	("Company") ('[' INT? ']')* OPENPARENTHESIS ((
+		(SyntaxExpression|HexadecimalExpression|ADDRESSEXPRESION|NumberExpression|Identifier|"now"|IdentifierValueExpression|BracketExpression|MSGVariables|BOOLVALUE) 
+		COMMA?)*)|(OPENKEY FieldAssign (COMMA? FieldAssign)* CLOSEKEY) CLOSEPARENTHESIS
+;
+
+
+TimeExpression returns ecore::EString:
+	INT ("seconds" | "minutes" | "hours" | "days" | "weeks" | "years" )
+;
+
+TupleExpression returns ecore::EString:
+	OPENPARENTHESIS ((SyntaxExpression|NumberExpression|BOOLVALUE|ADDRESSEXPRESION|(SingularType|"Company"|"User")? Identifier|IdentifierValueExpression|ArithmeticalExpression|BracketExpression|MSGVariables) COMMA?)+ CLOSEPARENTHESIS
+;
+
+ReturnExpression:
+	ReturnExpressionNoValue | ReturnExpressionValue 
+;
+
+ReturnExpressionValue returns ecore::EString:
+	RETURN NEW? (CryptographycFunctionsComparationExpresion|CryptographycFunctions|BracketExpression|SyntaxExpression|NumberExpression| "-" NumberExpression |TupleExpression| Identifier (OPENPARENTHESIS ((Identifier|BracketExpression|IdentifierDotExpression) COMMA?)* CLOSEPARENTHESIS)?|SingularType? Identifier |BOOLVALUE|IdentifierDotExpression (OPENPARENTHESIS ((Identifier|BracketExpression|IdentifierDotExpression) COMMA?)* CLOSEPARENTHESIS)? |ArithmeticalComparationExpression|ArithmeticalExpression|MSGVariables|BlockVariables|PayableExpression|TypeCastingExpression)
+;
+
+ReturnExpressionNoValue returns ecore::EString:
+	RETURN SEMICOLON
+;
+
+CryptographycFunctionsComparationExpresion returns ecore::EString:
+	(CryptographycFunctions|Identifier|IdentifierDotExpression) ("=="|"!=") (CryptographycFunctions|Identifier|ADDRESSEXPRESION|HexadecimalExpression|IdentifierDotExpression|SyntaxExpression|BOOLVALUE|NegationExpression|MSGSENDER)
+;
+
+
+ComparationExpression returns ecore::EString:
+	(SyntaxExpression|NegationExpression) ("=="|"!=") (SyntaxExpression|NegationExpression)
+;
+
+
+ArithmeticalComparationExpression returns ecore::EString:	 
+	(BOOLVALUE|NumberExpression|IncrementLoopExpression|DecrementLoopExpression|Identifier|MSGVariables|BCKTIMESTAMP|BCKNUMBER|"now"|BracketExpression|IdentifierValueExpression (DOT Identifier)*)  ("=="|"!="|'>'|">="|'<'|"<=")  (BOOLVALUE|NumberExpression|IncrementLoopExpression|DecrementLoopExpression|Identifier|MSGVariables|BCKTIMESTAMP|BCKNUMBER|"now"|BracketExpression|IdentifierValueExpression|TypeCastingExpression)
+
+;
+
+
+NumberExpression:
+	(INT|FLOAT) 
+;
+
+ArithmeticalExpression returns ecore::EString:
+	(NumberExpression|Identifier|MSGVALUE|MSGBALANCE|BCKTIMESTAMP|BCKNUMBER|"now"|BracketExpression|IdentifierValueExpression|TimeExpression|CoinExpression)  (('+'|'-'|'*'|'/'|'%'|"**")  (NumberExpression|Identifier|MSGVALUE|MSGBALANCE|BCKTIMESTAMP|BCKNUMBER|"now"|BracketExpression|IdentifierValueExpression|TimeExpression|CoinExpression))+
+;
+
+
+IncrementLoopExpression returns ecore::EString:
+	INT "++" | Identifier "++"
+;
+
+DecrementLoopExpression returns ecore::EString:
+	INT "--" | Identifier "--"
+;
+
+BitwiseExpression returns ecore::EString:
+	(INT|Identifier|IdentifierValueExpression|TypeCastingExpression) "|" (INT|Identifier|IdentifierValueExpression|BitwiseExpression|TypeCastingExpression) | (INT|Identifier|IdentifierValueExpression|TypeCastingExpression) "&" (INT|Identifier|IdentifierValueExpression|BitwiseExpression|TypeCastingExpression) | (INT|Identifier|IdentifierValueExpression|TypeCastingExpression) "^" (INT|Identifier|IdentifierValueExpression|BitwiseExpression|TypeCastingExpression) | (INT|Identifier|IdentifierValueExpression|TypeCastingExpression) "~" (INT|IdentifierValueExpression|Identifier|BitwiseExpression|TypeCastingExpression)
+;
+
+ShiftExpression returns ecore::EString:
+	((INT|Identifier) ">>" (INT|Identifier)  | (INT|Identifier) "<<" (INT|Identifier)) 
+;
+
+CallFunctionExpression returns ecore::EString:
+	(IdentifierValueExpression|Identifier (OPENPARENTHESIS (Identifier) CLOSEPARENTHESIS)|Identifier)  (DOT Identifier)* OPENPARENTHESIS ((SyntaxExpression|ADDRESSEXPRESION|HexadecimalExpression|BlockVariables|MSGVariables| Identifier|IdentifierDotExpression|TypeCastingExpression|BracketExpression|NumberExpression|ArithmeticalExpression|ArithmeticalComparationExpression|AbyExpression|ParenthesisExpression|"now") COMMA? )* CLOSEPARENTHESIS
+;
+
+ParenthesisExpression returns ecore::EString:
+	Identifier (OPENPARENTHESIS ((STRING|Identifier|IdentifierDotExpression|INT|BOOLVALUE|MSGVariables|HEXEXPRESSION|ADDRESSEXPRESION|"now"|TypeCastingExpression) COMMA?)* CLOSEPARENTHESIS) (DOT Expression)?
+;
+
+BracketExpression returns ecore::EString:
+	Identifier ('[' (Identifier|Identifier '[' (Identifier|INT|BOOLVALUE|ADDRESSEXPRESION|HexadecimalExpression) ']'|IdentifierValueExpression|INT|BOOLVALUE|MSGSENDER|HEXEXPRESSION|ADDRESSEXPRESION) ']')+ (DOT Identifier)*
+;
+
+
+IdentifierValueExpression returns ecore::EString:
+	Identifier DOT Identifier 
+;
+
+IdentifierDotExpression returns ecore::EString:
+	Identifier DOT Identifier (DOT Identifier)*
+;
+
+
+AssemblyExpression returns ecore::EString:
+	"assembly" OPENKEY ((("let"? Identifier ":=" (Identifier|NumberExpression|ArithmeticalExpression|CallFunctionExpression)) | CallFunctionExpression)  EOLINE?)* CLOSEKEY 
+;
+
+RevertExpression returns ecore::EString:
+	"revert" (OPENPARENTHESIS SyntaxExpression? CLOSEPARENTHESIS | ParenthesisExpression)
+;
+
+DeleteExpression returns ecore::EString:
+	"delete" (Identifier|BracketExpression)
+;
+
+StructInicializationKeyExpression returns ecore::EString:
+	OPENPARENTHESIS (OPENKEY (Identifier ':' (Identifier|SyntaxExpression|NumberExpression|BOOLVALUE|BracketExpression|ADDRESSEXPRESION|HexadecimalExpression|IdentifierDotExpression) COMMA?)* CLOSEKEY) CLOSEPARENTHESIS 
+;
+
+
+LogicalComparationExpression returns ecore::EString:
+	AndExpression|OrExpression
+;
+
+AndExpression returns ecore::EString:
+	(NegationExpression|ArithmeticalComparationExpression|ComparationExpression|Identifier|BracketExpression|IdentifierDotExpression) "&&" ((OPENPARENTHESIS LogicalComparationExpression|ComparationExpression CLOSEPARENTHESIS)|LogicalComparationExpression|ComparationExpression|ArithmeticalComparationExpression|Identifier)
+;
+
+OrExpression returns ecore::EString:
+	(NegationExpression|ArithmeticalComparationExpression|ComparationExpression|Identifier|BracketExpression|IdentifierDotExpression) "||" ((OPENPARENTHESIS LogicalComparationExpression CLOSEPARENTHESIS)|ComparationExpression|ArithmeticalComparationExpression|Identifier)
+;
+
+
+Condition:
+	IF OPENPARENTHESIS condition=(CryptographycFunctionsComparationExpresion|LogicalComparationExpression|ArithmeticalComparationExpression|ComparationExpression|BracketExpression|IdentifierValueExpression|NegationExpression|CallFunctionExpression|BoolValueExpression) CLOSEPARENTHESIS OPENKEY EOLINE?
+		(restriction += RestrictionClause |properties += Properties| expressions += (Expression|BREAK|CONTINUE) | conditionalExpr += Condition | undeterminedloops += UnDeterminedLoop  | determinedloops += ForLoop| (EMIT event += [Event] OPENPARENTHESIS inputParamsEvent+=InputParam* CLOSEPARENTHESIS SEMICOLON EOLINE?))*
+	CLOSEKEY EOLINE? 	
+	(ELSE OPENKEY EOLINE?
+		(restrictionElse += RestrictionClause |propertiesElse += Properties|expressionsElse += (Expression|BREAK|CONTINUE) | conditionalExprElse += Condition| undeterminedloopsElse += UnDeterminedLoop  | determinedloopsElse += ForLoop | (EMIT eventElse += [Event] OPENPARENTHESIS inputParamsEventElse+=InputParam* CLOSEPARENTHESIS SEMICOLON EOLINE?))* 
+	CLOSEKEY EOLINE?)?
+;
+
+
+
+UnDeterminedLoop:
+	WhileLoop|DoWhileLoop
+;
+
+
+WhileLoop:
+	"while" OPENPARENTHESIS condition=(AndExpression|OrExpression|ArithmeticalComparationExpression|ComparationExpression|IdentifierValueExpression|CallFunctionExpression|BoolValueExpression) CLOSEPARENTHESIS OPENKEY EOLINE?
+		gasrestriction += RestrictionGas
+		(restriction += RestrictionClause |properties += Properties| conditions += Condition | undeterminedloops += UnDeterminedLoop | determinedloops += ForLoop | (EMIT event += [Event] OPENPARENTHESIS inputParams+=InputParam* CLOSEPARENTHESIS SEMICOLON EOLINE) | expressions += (Expression|BREAK|CONTINUE))* 
+	CLOSEKEY EOLINE?
+;
+
+ForLoop:
+	"for" OPENPARENTHESIS ((typeCounter = ("uint"|"int") (nameCounter=Identifier) "=" value = INT)|(typeCounter = ("char") (nameCounter=Identifier) "=" valueCounter = CHAR )) SEMICOLON condition=ArithmeticalComparationExpression SEMICOLON (IncrementLoopExpression|DecrementLoopExpression) CLOSEPARENTHESIS OPENKEY EOLINE?
+		gasrestriction += RestrictionGas
+		(restriction += RestrictionClause |properties += Properties| conditions += Condition |  undeterminedloops += UnDeterminedLoop  | determinedloops += ForLoop | expressions += (Expression|BREAK|CONTINUE)EOLINE?
+		)*
+		
+	CLOSEKEY EOLINE?
+;
+
+DoWhileLoop:
+	"do"  OPENKEY EOLINE?
+		gasrestriction += RestrictionGas 
+		(restriction += RestrictionClause  | conditions += Condition| undeterminedloops += UnDeterminedLoop | determinedloops += ForLoop | (EMIT event += [Event] OPENPARENTHESIS inputParams+=InputParam* CLOSEPARENTHESIS SEMICOLON EOLINE) | expressions += (Expression|BREAK|CONTINUE))*
+	CLOSEKEY  "while" OPENPARENTHESIS condition=(AndExpression|OrExpression|ArithmeticalComparationExpression|ComparationExpression|CallFunctionExpression|BoolValueExpression) CLOSEPARENTHESIS EOLINE?
+;
+
+

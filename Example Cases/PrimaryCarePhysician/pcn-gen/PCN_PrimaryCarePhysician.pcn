@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pcn:PCNDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:pcn="http://www.kybele.es/elastic/models/pcn/1.0">
+  <diagramEntities name="Primary Care Physician" order="1">
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@rightSurrogateInteractions.1
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Notify CC" PCNStandardDependency="//@diagramEntities.2/@leftSurrogateInteractions.0
+     " PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="//@diagramEntities.0/@rightDirectInteractions.0
+     " action="Process prescription" PCNStandardDependency="" PCNDelayedDependency="">
+    </rightSurrogateInteractions>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@rightDirectInteractions.1
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Process referral" PCNStandardDependency="//@diagramEntities.0/@leftSurrogateInteractions.0
+     " PCNDelayedDependency="">
+    </rightSurrogateInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNDecisionStep" PCNStandardDependencySource="//@diagramEntities.1/@leftDirectInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Requires specialist?" PCNPositiveDecision="" PCNNegativeDecision="">
+    </rightDirectInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="//@diagramEntities.0/@rightDirectInteractions.0
+     " PCNNegativeDecisionSource="" action="Provide referral" PCNStandardDependency="//@diagramEntities.0/@rightSurrogateInteractions.1
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+  </diagramEntities>
+  <diagramEntities name="Patient" order="2">
+    <leftDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@leftSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Discuss symptoms" PCNStandardDependency="//@diagramEntities.0/@rightDirectInteractions.0
+     " PCNDelayedDependency="">
+    </leftDirectInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@centerIndependentInteractionsActivities.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Travel to clinic" PCNStandardDependency="//@diagramEntities.1/@leftDirectInteractions.0
+     " PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Health problem" PCNStandardDependency="//@diagramEntities.1/@leftSurrogateInteractions.0
+     " PCNDelayedDependency="">
+    </centerIndependentInteractionsActivities>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.4/@rightSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Discuss symptoms with specialist" PCNStandardDependency="//@diagramEntities.1/@rightDirectInteractions.1
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@rightDirectInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Provide test data" PCNStandardDependency="//@diagramEntities.1/@rightDirectInteractions.2
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@rightDirectInteractions.1
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Receive treatment" PCNStandardDependency="" PCNDelayedDependency="">
+    </rightDirectInteractions>
+  </diagramEntities>
+  <diagramEntities name="Care Coordinator" order="3">
+    <leftDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@leftSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Follow-up with Patient" PCNStandardDependency="//@diagramEntities.2/@leftSurrogateInteractions.1
+     " PCNDelayedDependency="">
+    </leftDirectInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@leftSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Review referral" PCNStandardDependency="" PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNDecisionStep" PCNStandardDependencySource="//@diagramEntities.2/@leftDirectInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Need PCP follow-up?" PCNPositiveDecision="" PCNNegativeDecision="">
+    </leftSurrogateInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="//@diagramEntities.2/@leftSurrogateInteractions.1
+     " PCNNegativeDecisionSource="" action="Schedule Patient follow-up visit with PCP" PCNStandardDependency="" PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <rightSurrogateInteractions xsi:type="pcn:PCNDecisionStep" PCNStandardDependencySource="//@diagramEntities.2/@rightDirectInteractions.1
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Transport need?" PCNPositiveDecision="" PCNNegativeDecision="">
+    </rightSurrogateInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Schedule patient with specialist" PCNStandardDependency="//@diagramEntities.3/@leftDirectInteractions.0
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@leftDirectInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Discuss with patient" PCNStandardDependency="//@diagramEntities.2/@rightSurrogateInteractions.0
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="//@diagramEntities.2/@rightSurrogateInteractions.0
+     " PCNNegativeDecisionSource="" action="Schedule transportation with patient" PCNStandardDependency="" PCNDelayedDependency="//@diagramEntities.4/@rightDirectInteractions.0
+     ">
+    </rightDirectInteractions>
+  </diagramEntities>
+  <diagramEntities name="Healthcare Specialist" order="4">
+    <leftDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.2/@rightDirectInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Review patient situation" PCNStandardDependency="//@diagramEntities.2/@rightDirectInteractions.1
+     " PCNDelayedDependency="">
+    </leftDirectInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@rightSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Notify CC" PCNStandardDependency="//@diagramEntities.2/@leftDirectInteractions.0
+     " PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@rightDirectInteractions.1
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Analyze test data" PCNStandardDependency="//@diagramEntities.3/@leftSurrogateInteractions.0
+     //@diagramEntities.3/@rightDirectInteractions.2
+     " PCNDelayedDependency="">
+    </rightSurrogateInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.4/@rightSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Discuss symptoms" PCNStandardDependency="//@diagramEntities.3/@rightDirectInteractions.1
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@rightDirectInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Gather test data" PCNStandardDependency="//@diagramEntities.3/@rightSurrogateInteractions.0
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@rightSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Provide treatment" PCNStandardDependency="" PCNDelayedDependency="">
+    </rightDirectInteractions>
+  </diagramEntities>
+  <diagramEntities name="Transportation Provider" order="5">
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.4/@rightDirectInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Transport patient to specialist" PCNStandardDependency="//@diagramEntities.1/@rightDirectInteractions.0
+     //@diagramEntities.3/@rightDirectInteractions.0
+     " PCNDelayedDependency="">
+    </rightSurrogateInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="//@diagramEntities.2/@rightDirectInteractions.2
+     " PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Pick up patient" PCNStandardDependency="//@diagramEntities.4/@rightSurrogateInteractions.0
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+  </diagramEntities>
+</pcn:PCNDiagram>

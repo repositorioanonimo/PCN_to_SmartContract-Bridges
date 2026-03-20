@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmftool:ToolRegistry
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
+  <palette
+      title="pcnPalette">
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="PCN Entities"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="PCN Entity"
+          description="Create new PCN Entity">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/01_PCN_Entity.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/01_PCN_Entity.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="PCN Steps"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Decision Step"
+          description="Create new PCN Decision Step">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/07_PCN_DecisionStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/07_PCN_DecisionStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Do and Wait Step"
+          description="Create new PCN Do and Wait Step">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/03_PCN_DoAndWaitStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/03_PCN_DoAndWaitStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Innovation Step"
+          description="Create new PCN Innovation Step">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/05_PCN_InnovationStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/05_PCN_InnovationStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Outsourced Step"
+          description="Create new PCN Outsourced Step">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/06_PCN_OutsourcedStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/06_PCN_OutsourcedStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Reference"
+          description="Create new PCN Reference">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/08_PCN_Reference.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/08_PCN_Reference.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Regular Step"
+          description="Create new PCN Regular Step">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/02_PCN_RegularStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/02_PCN_RegularStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Wait Step"
+          description="Create new PCN Wait Step">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/04_PCN_WaitStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/04_PCN_WaitStep.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="PCN Dependencies"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Delay Dependency"
+          description="Create new PCN Delay Dependency">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/10_PCN_DelayedDependency.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/10_PCN_DelayedDependency.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Negative Decision"
+          description="Create new PCN Negative Decision">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/16_PCN_NegativeDecision.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/16_PCN_NegativeDecision.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Positive Decision"
+          description="Create new PCN Positive Decision">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/15_PCN_PositiveDecision.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/15_PCN_PositiveDecision.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Regular Dependency"
+          description="Create new PCN Regular Dependency">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/09_PCN_StandardDependency.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/09_PCN_StandardDependency.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="PCN Tags"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Monetary Benefit"
+          description="Create new PCN Monetary Benefit">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/13_PCN_MonetaryBenefit.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/13_PCN_MonetaryBenefit.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Monetary Cost"
+          description="Create new PCN Monetary Cost">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/14_PCN_MonetaryCost.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/14_PCN_MonetaryCost.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Non Monetary Benefit"
+          description="Create new PCN Non Monetary Benefit">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/11_PCN_NonMonetaryBenefit.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/11_PCN_NonMonetaryBenefit.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Non Monetary Cost"
+          description="Create new PCN Non Monetary Cost">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/12_PCN_NonMonetaryCost.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/12_PCN_NonMonetaryCost.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Textual Tag"
+          description="Create new PCN Textual Tag">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/17_PCN_TextualTag.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/17_PCN_TextualTag.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Delay Time Tag"
+          description="Create new PCN Delay Time Tag">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/18_PCN_DelayTimeTag.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/18_PCN_DelayTimeTag.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Probabilities Tag"
+          description="Create new PCN Probabilities Tag">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/19_PCN_ProbabilitiesTag.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/19_PCN_ProbabilitiesTag.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Synchronization Tag"
+          description="Create new PCN Synchronization Tag">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/20_PCN_SyncTag.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/full/obj16/20_PCN_SyncTag.png"
+            bundle="es.kybele.elastic.models.pcn.edit"/>
+      </tools>
+    </tools>
+  </palette>
+</gmftool:ToolRegistry>

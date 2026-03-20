@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: INNoVaServ Toolkit PCN Business Model - Edit Plug-In
+Bundle-SymbolicName: es.kybele.elastic.models.pcn.edit;singleton:=true
+Bundle-Version: 0.0.1.a
+Bundle-ClassPath: .
+Bundle-Activator: pcn.provider.PcnEditPlugin$Implementation
+Bundle-Vendor: Grupo de Investigación Kybele
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: pcn.provider
+Require-Bundle: org.eclipse.core.runtime,
+ es.kybele.elastic.models.pcn;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

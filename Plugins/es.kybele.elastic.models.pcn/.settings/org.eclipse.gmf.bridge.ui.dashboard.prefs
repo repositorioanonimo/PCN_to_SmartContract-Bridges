@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+gmf_dashboard/domainGenerationModel=platform\:/resource/es.kybele.elastic.models.pcn/model/pcn.genmodel
+gmf_dashboard/domainModel=platform\:/resource/es.kybele.elastic.models.pcn/model/pcn.ecore
+gmf_dashboard/generationModel=platform\:/resource/es.kybele.elastic.models.pcn/model/pcn.gmfgen
+gmf_dashboard/graphicalDefinitionModel=platform\:/resource/es.kybele.elastic.models.pcn/model/pcn.gmfgraph
+gmf_dashboard/mappingModel=platform\:/resource/es.kybele.elastic.models.pcn/model/pcn.gmfmap
+gmf_dashboard/toolingDefinitionModel=platform\:/resource/es.kybele.elastic.models.pcn/model/pcn.gmftool

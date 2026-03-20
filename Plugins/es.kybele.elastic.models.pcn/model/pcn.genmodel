@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/es.kybele.elastic.models.pcn/src" modelPluginID="es.kybele.elastic.models.pcn"
+    modelName="Pcn" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>pcn.ecore</foreignModel>
+  <genPackages prefix="Pcn" disposableProviderFactory="true" ecorePackage="pcn.ecore#/">
+    <genClasses ecoreClass="pcn.ecore#//PCNDiagram">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNDiagram/diagramEntities"/>
+    </genClasses>
+    <genClasses ecoreClass="pcn.ecore#//PCNProcessEntity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pcn.ecore#//PCNProcessEntity/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pcn.ecore#//PCNProcessEntity/order"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessEntity/backEntity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessEntity/nextEntity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessEntity/leftDirectInteractions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessEntity/leftSurrogateInteractions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessEntity/centerIndependentInteractionsActivities"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessEntity/rightSurrogateInteractions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessEntity/rightDirectInteractions"/>
+      <genOperations ecoreOperation="pcn.ecore#//PCNProcessEntity/getDirectInteractions"/>
+      <genOperations ecoreOperation="pcn.ecore#//PCNProcessEntity/getSurrogateInteractions"/>
+      <genOperations ecoreOperation="pcn.ecore#//PCNProcessEntity/getIndependentInteractios"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="pcn.ecore#//PCNProcessStep">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStep/tags"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStep/PCNStandardDependencySource"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStep/PCNDelayedDependencySource"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStep/PCNPositiveDecisionSource"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStep/PCNNegativeDecisionSource"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="pcn.ecore#//PCNProcessStepWithTags">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStepWithTags/nonMonetaryBenefits"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStepWithTags/nonMonetaryCosts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStepWithTags/monetaryBenefits"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStepWithTags/monetaryCosts"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pcn.ecore#//PCNProcessStepWithTags/action"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStepWithTags/textualTags"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStepWithTags/delayTimeTags"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStepWithTags/probabilitiesTags"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNProcessStepWithTags/syncTags"/>
+    </genClasses>
+    <genClasses ecoreClass="pcn.ecore#//PCNReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pcn.ecore#//PCNReference/letter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pcn.ecore#//PCNReference/number"/>
+    </genClasses>
+    <genClasses ecoreClass="pcn.ecore#//PCNStandardStep"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNDoAndWaitStep"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNWaitStep"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNDecisionStep">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNDecisionStep/PCNPositiveDecision"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNDecisionStep/PCNNegativeDecision"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="pcn.ecore#//PCNTag"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNMonetaryTag"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNMonetaryBenefit"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNMonetaryCost"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNNonMonetaryTag"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNNonMonetaryBenefit"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNNonMonetaryCost"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNInnovationStep"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNOutsourcedStep"/>
+    <genClasses ecoreClass="pcn.ecore#//PCNRegularProcessStep">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNRegularProcessStep/PCNStandardDependency"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference pcn.ecore#//PCNRegularProcessStep/PCNDelayedDependency"/>
+    </genClasses>
+    <genClasses ecoreClass="pcn.ecore#//PCNTextualTag">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pcn.ecore#//PCNTextualTag/tag"/>
+    </genClasses>
+    <genClasses ecoreClass="pcn.ecore#//PCNDelayTimeTag">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pcn.ecore#//PCNDelayTimeTag/delayTime"/>
+    </genClasses>
+    <genClasses ecoreClass="pcn.ecore#//PCNProbabilitiesTag">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pcn.ecore#//PCNProbabilitiesTag/yesProbability"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute pcn.ecore#//PCNProbabilitiesTag/noProbability"/>
+    </genClasses>
+    <genClasses ecoreClass="pcn.ecore#//PCNSyncTag"/>
+  </genPackages>
+</genmodel:GenModel>

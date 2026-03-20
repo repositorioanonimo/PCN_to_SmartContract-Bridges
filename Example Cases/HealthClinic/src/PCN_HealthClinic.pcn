@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pcn:PCNDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pcn="http://www.kybele.es/elastic/models/pcn/1.0">
+  <diagramEntities name="Health Clinic" order="1">
+    <leftDirectInteractions xsi:type="pcn:PCNStandardStep" action="procure lab tools" PCNDelayedDependency="//@diagramEntities.0/@centerIndependentInteractionsActivities.1 //@diagramEntities.0/@centerIndependentInteractionsActivities.0"/>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@rightSurrogateInteractions.1" action="submit payment claim" PCNStandardDependency="//@diagramEntities.2/@leftSurrogateInteractions.1"/>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNDelayedDependencySource="//@diagramEntities.0/@leftDirectInteractions.0" action="clean lab tools" PCNStandardDependency="//@diagramEntities.0/@rightSurrogateInteractions.0"/>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNDelayedDependencySource="//@diagramEntities.0/@leftDirectInteractions.0" action="train staff on tools" PCNDelayedDependency="//@diagramEntities.0/@rightSurrogateInteractions.0"/>
+    <rightSurrogateInteractions xsi:type="pcn:PCNDoAndWaitStep" PCNStandardDependencySource="//@diagramEntities.0/@centerIndependentInteractionsActivities.0 //@diagramEntities.0/@rightDirectInteractions.1" PCNDelayedDependencySource="//@diagramEntities.0/@centerIndependentInteractionsActivities.1" action="analyze blood" PCNStandardDependency="//@diagramEntities.0/@rightDirectInteractions.0"/>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@rightDirectInteractions.0" action="call in prescription" PCNStandardDependency="//@diagramEntities.0/@leftSurrogateInteractions.0 //@diagramEntities.3/@rightSurrogateInteractions.0"/>
+    <rightDirectInteractions xsi:type="pcn:PCNDoAndWaitStep" PCNStandardDependencySource="//@diagramEntities.0/@rightSurrogateInteractions.0" action="prescribe mediction" PCNStandardDependency="//@diagramEntities.1/@centerIndependentInteractionsActivities.2 //@diagramEntities.0/@rightSurrogateInteractions.1"/>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@leftDirectInteractions.0" action="take blood" PCNStandardDependency="//@diagramEntities.0/@rightSurrogateInteractions.0"/>
+  </diagramEntities>
+  <diagramEntities name="Patient" order="2">
+    <leftDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@leftSurrogateInteractions.0" action="discuss symptoms" PCNStandardDependency="//@diagramEntities.0/@rightDirectInteractions.1"/>
+    <leftSurrogateInteractions xsi:type="pcn:PCNWaitStep" PCNStandardDependencySource="//@diagramEntities.1/@leftSurrogateInteractions.1" action="wait" PCNStandardDependency="//@diagramEntities.1/@leftDirectInteractions.0">
+      <nonMonetaryBenefits/>
+    </leftSurrogateInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@centerIndependentInteractionsActivities.1" action="check-in at kiosk" PCNStandardDependency="//@diagramEntities.1/@leftSurrogateInteractions.0"/>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" action="feel weak" PCNStandardDependency="//@diagramEntities.1/@centerIndependentInteractionsActivities.1"/>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@centerIndependentInteractionsActivities.0" action="drive to clinic" PCNStandardDependency="//@diagramEntities.1/@leftSurrogateInteractions.1"/>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@rightDirectInteractions.0" action="drive to pharmacy" PCNStandardDependency="//@diagramEntities.1/@rightDirectInteractions.0"/>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@rightDirectInteractions.1" action="take medication" PCNStandardDependency="//@diagramEntities.1/@centerIndependentInteractionsActivities.4"/>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@centerIndependentInteractionsActivities.3" action="feel better"/>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@centerIndependentInteractionsActivities.2" action="show ID" PCNStandardDependency="//@diagramEntities.3/@rightDirectInteractions.0"/>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@rightDirectInteractions.1" action="give payment" PCNStandardDependency="//@diagramEntities.1/@centerIndependentInteractionsActivities.3"/>
+  </diagramEntities>
+  <diagramEntities name="Insurance Company" order="3">
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.2/@leftSurrogateInteractions.1" action="pay covered amount"/>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@leftSurrogateInteractions.0" PCNDelayedDependencySource="//@diagramEntities.2/@centerIndependentInteractionsActivities.0" action="review claim" PCNStandardDependency="//@diagramEntities.2/@leftSurrogateInteractions.0"/>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNOutsourcedStep" action="develop payment schedule" PCNDelayedDependency="//@diagramEntities.2/@leftSurrogateInteractions.1 //@diagramEntities.2/@rightDirectInteractions.0"/>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@leftSurrogateInteractions.0" action="process payment"/>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNDelayedDependencySource="//@diagramEntities.2/@centerIndependentInteractionsActivities.0" action="establish medication coverage agreement" PCNStandardDependency="//@diagramEntities.3/@rightSurrogateInteractions.1"/>
+  </diagramEntities>
+  <diagramEntities name="Pharmacy" order="4">
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@rightSurrogateInteractions.1" action="submit payment claim" PCNStandardDependency="//@diagramEntities.2/@rightSurrogateInteractions.0"/>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@rightDirectInteractions.0 //@diagramEntities.0/@rightSurrogateInteractions.1" action="fill prescription" PCNStandardDependency="//@diagramEntities.3/@rightSurrogateInteractions.1"/>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@rightSurrogateInteractions.0 //@diagramEntities.2/@rightDirectInteractions.0" action="check coverage" PCNStandardDependency="//@diagramEntities.3/@leftSurrogateInteractions.0 //@diagramEntities.3/@rightDirectInteractions.1"/>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@rightDirectInteractions.0" action="check ID" PCNStandardDependency="//@diagramEntities.3/@rightSurrogateInteractions.0"/>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@rightSurrogateInteractions.1" action="tell copay amount" PCNStandardDependency="//@diagramEntities.1/@rightDirectInteractions.1"/>
+  </diagramEntities>
+</pcn:PCNDiagram>

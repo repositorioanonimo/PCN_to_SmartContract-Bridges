@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pcn:PCNDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pcn="http://www.kybele.es/elastic/models/pcn/1.0">
+  <diagramEntities name="Transportation Provider" order="1">
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@leftDirectInteractions.0 " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Transport patient" PCNStandardDependency="" PCNDelayedDependency="//@diagramEntities.1/@leftSurrogateInteractions.0 ">
+    </rightSurrogateInteractions>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@leftSurrogateInteractions.0 " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Provide schedule" PCNStandardDependency="" PCNDelayedDependency="">
+    </rightDirectInteractions>
+  </diagramEntities>
+  <diagramEntities name="Client" order="2">
+    <leftDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@centerIndependentInteractionsActivities.0 " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Look up schedule" PCNStandardDependency="//@diagramEntities.0/@rightSurrogateInteractions.0 " PCNDelayedDependency="">
+    </leftDirectInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="//@diagramEntities.0/@rightSurrogateInteractions.0 " PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Board transport" PCNStandardDependency="//@diagramEntities.0/@rightDirectInteractions.0 " PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Look up transport" PCNStandardDependency="//@diagramEntities.1/@leftDirectInteractions.0 " PCNDelayedDependency="">
+    </centerIndependentInteractionsActivities>
+  </diagramEntities>
+</pcn:PCNDiagram>

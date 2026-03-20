@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated pcn -->
+      <package
+      		uri="http://www.kybele.es/elastic/models/pcn/1.0"
+            class="pcn.PcnPackage"
+            genModel="model/pcn.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.evl.emf.validation">
+      <constraintsBinding
+            compose="true"
+            constraints="model/pcn.evl"
+            namespaceURI="http://www.kybele.es/elastic/models/pcn/1.0">
+      </constraintsBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="org.eclipse.epsilon.evl.emf.validation.EvlMarkerResolutionGenerator"
+            markerType="es.kybele.elastic.models.pcn.diagram.diagnostic">
+      </markerResolutionGenerator>
+      <markerResolutionGenerator
+            class="org.eclipse.epsilon.evl.emf.validation.EvlMarkerResolutionGenerator"
+            markerType="org.eclipse.emf.ecore.diagnostic">
+      </markerResolutionGenerator>
+   </extension>
+   
+  <!-- pcn.generator.sce -->
+   <extension point="org.eclipse.ui.handlers">
+        <handler
+              class="pcn.generator.sce.SceGenHandler"
+              commandId="pcn.generator.SceGenCommand">
+        </handler>  
+  </extension>   
+  <extension point="org.eclipse.ui.commands">
+        <command
+              id="pcn.generator.SceGenCommand"
+              name="Generate Solidity code">
+        </command>
+  </extension>
+  <extension point="org.eclipse.ui.menus">
+  	<menuContribution locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+        <command
+              commandId="pcn.generator.SceGenCommand"
+              icon="images/SolidityGenerator/solidity.png"
+              label="Generate Solidity code"
+              style="push"
+              tooltip="Generate Solidity code from PCN model">
+              <visibleWhen
+                  checkEnabled="false">
+                  <iterate
+                  ifEmpty="false">
+       			      <adapt type="org.eclipse.core.resources.IResource">
+          			  <test property="org.eclipse.core.resources.name" 
+                	      value="*.pcn"/>
+       				  </adapt>
+    			  </iterate>
+              </visibleWhen>
+        </command>
+    </menuContribution>
+ </extension>
+ <!-- pcn.generator.solidity -->
+</plugin>

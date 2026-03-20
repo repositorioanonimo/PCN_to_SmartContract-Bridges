@@ -1,0 +1,142 @@
+context PCNProcessStepWithTags {
+
+  constraint HasAction {
+      check : self.action.isDefined()
+      message : 'A step with undefined action has been found.'
+      fix {
+          title : 'Assign new action to step'
+          do {
+              var action :=  UserInput.prompt('New step action');
+              if (action.isDefined()) self.action := action;
+          }
+      }
+  }
+  
+  critique  HasMonetaryDiscrepancies {
+      check : not((self.monetaryBenefits->size() >= 1) and (self.monetaryCosts->size() >= 1))
+      message : 'A monetary discrepancy has been found (benefits and losses in same step).'
+  }
+  
+  critique  HasNonMonetaryDiscrepancies {
+      check : not((self.nonMonetaryBenefits->size() >= 1) and (self.nonMonetaryCosts->size() >= 1))
+      message : 'A non monetary discrepancy has been found (benefits and losses in same step).'
+  }
+
+}
+
+context PCNReference {
+
+  constraint HasLetter {
+      check : self.letter.isDefined()
+      message : 'A reference with no letter defined has been found.'
+      fix {
+          title : 'Assign new letter to reference'
+          do {
+              var letter :=  UserInput.prompt('New reference letter');
+              if (letter.isDefined()) self.letter := letter;
+          }
+      }
+  }
+  
+  constraint HasNumber {
+      check : self.number.isDefined()
+      message : 'A reference with no number defined has been found.'
+      fix {
+          title : 'Assign new number to reference'
+          do {
+              var number :=  UserInput.prompt('New reference number');
+              if (number.isDefined()) self.number := number;
+          }
+      }
+  }
+  
+  constraint HasDependencies {
+      check : (self.PCNStandardDependencySource->first().isDefined()) or (self.PCNDelayedDependencySource->first().isDefined()) or (self.PCNPositiveDecisionSource->first().isDefined()) or (self.PCNNegativeDecisionSource->first().isDefined())
+      message : 'A reference without incoming dependencies has been found.'
+  }
+
+}
+
+context PCNTextualTag {
+
+  constraint HasTag {
+      check : self.tag.isDefined()
+      message : 'A tag with no text defined has been found.'
+      fix {
+          title : 'Assign new text to textual tag'
+          do {
+              var tag :=  UserInput.prompt('New textual tag text');
+              if (tag.isDefined()) self.tag := tag;
+          }
+      }
+  }
+
+}
+
+context PCNProcessEntity {
+
+  constraint HasName {
+      check : self.name.isDefined()
+      message : 'Entity\'s name has not been set.'
+      fix {
+          title : 'Assign new entity name'
+          do {
+              var name :=  UserInput.prompt('New entity name');
+              if (name.isDefined()) self.name := name;
+          }
+      }
+  }
+  
+  constraint HasOrder {
+      check : self.order.isDefined()
+      message : 'Entity\'s ID has not been set.'
+      fix {
+          title : 'Assign new entity ID'
+          do {
+              var order :=  UserInput.prompt('New entity ID');
+              if (order.isDefined()) self.order := order;
+          }
+      }
+  }
+
+}
+
+context PCNDecisionStep {
+
+  constraint HasNegativeDecision {
+  	  guard : self.satisfies('HasDependencies')
+      check : self.PCNNegativeDecision.isDefined()
+      message : 'A decision step without negative decision has been found.'
+  }
+  
+  constraint HasPositiveDecision {
+      guard : self.satisfies('HasDependencies')
+      check : self.PCNPositiveDecision.isDefined()
+      message : 'A decision step without positive decision has been found.'
+  }
+  
+  constraint HasDependencies {
+      check : (self.PCNPositiveDecision.isDefined()) or (self.PCNNegativeDecision.isDefined()) or (self.PCNStandardDependencySource->first().isDefined()) or (self.PCNDelayedDependencySource->first().isDefined()) or (self.PCNPositiveDecisionSource->first().isDefined()) or (self.PCNNegativeDecisionSource->first().isDefined())
+      message : 'A decision step without incoming and outgoing dependencies has been found.'
+  }
+  
+  constraint HasLoops {
+      check : ((self.PCNPositiveDecisionSource->size()>=1) implies (self.PCNPositiveDecision <> self.PCNPositiveDecisionSource->first())) and ((self.PCNNegativeDecisionSource->size()>=1) implies (self.PCNNegativeDecision <> self.PCNNegativeDecisionSource->first()))
+      message : 'A loop was detected.'
+  }
+
+}
+
+context PCNRegularProcessStep {
+
+  constraint HasDependencies {
+      check : (self.PCNStandardDependency->first().isDefined()) or (self.PCNDelayedDependency->first().isDefined()) or (self.PCNStandardDependencySource->first().isDefined()) or (self.PCNDelayedDependencySource->first().isDefined()) or (self.PCNPositiveDecisionSource->first().isDefined()) or (self.PCNNegativeDecisionSource->first().isDefined())
+      message : 'A step without incoming and outgoing dependencies has been found.'
+  }
+  
+  constraint HasLoops {
+      check : (((self.PCNStandardDependency->size() >= 1 and self.PCNStandardDependencySource->size() >= 1) implies ((self.PCNStandardDependency->first() <> self.PCNStandardDependencySource->first()) and (self.PCNStandardDependency->last() <> self.PCNStandardDependencySource->last()))) and ((self.PCNStandardDependency->size() >= 2 and self.PCNStandardDependencySource->size() >= 2) implies (self.PCNStandardDependency->at(0) <> self.PCNStandardDependencySource->at(1)))) and (((self.PCNDelayedDependency->size() >= 1 and self.PCNDelayedDependencySource->size() >= 1) implies ((self.PCNDelayedDependency->first() <> self.PCNDelayedDependencySource->first()) and (self.PCNDelayedDependency->last() <> self.PCNDelayedDependencySource->last()))) and ((self.PCNDelayedDependency->size() >= 2 and self.PCNDelayedDependencySource->size() >= 2) implies (self.PCNDelayedDependency->at(0) <> self.PCNDelayedDependencySource->at(1))))
+      message : 'A loop was detected.'
+  }
+
+}

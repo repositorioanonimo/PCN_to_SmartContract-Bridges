@@ -1,0 +1,7 @@
+# Tracing options for the es.kybele.elastic.models.pcn.diagram plug-in
+
+# Common issues
+es.kybele.elastic.models.pcn.diagram/debug=false
+
+# Visual IDs
+es.kybele.elastic.models.pcn.diagram/debug/visualID=false

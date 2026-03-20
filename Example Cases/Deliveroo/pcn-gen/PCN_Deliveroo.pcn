@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pcn:PCNDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:pcn="http://www.kybele.es/elastic/models/pcn/1.0">
+  <diagramEntities name="Deliveroo" order="1">
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@centerIndependentInteractionsActivities.2
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Order food" PCNStandardDependency="//@diagramEntities.2/@leftSurrogateInteractions.0
+     " PCNDelayedDependency="">
+      	  <monetaryCosts/>>
+    </leftSurrogateInteractions>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNDecisionStep" PCNStandardDependencySource="//@diagramEntities.1/@leftSurrogateInteractions.1
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Available zip zone?" PCNPositiveDecision="" PCNNegativeDecision="">
+            <probabilitiesTags yesProbability="80%" noProbability="20%"/>
+    </centerIndependentInteractionsActivities>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="//@diagramEntities.0/@centerIndependentInteractionsActivities.0
+     " action="Communicate to customer" PCNStandardDependency="" PCNDelayedDependency="">
+            <nonMonetaryCosts/>
+    </centerIndependentInteractionsActivities>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@leftSurrogateInteractions.3
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Process order" PCNStandardDependency="//@diagramEntities.0/@leftSurrogateInteractions.0
+     //@diagramEntities.0/@rightSurrogateInteractions.0
+     " PCNDelayedDependency="">
+    </centerIndependentInteractionsActivities>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@centerIndependentInteractionsActivities.2
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Order delivery" PCNStandardDependency="//@diagramEntities.3/@leftSurrogateInteractions.0
+     " PCNDelayedDependency="">
+      	  <monetaryCosts/>>
+    </rightSurrogateInteractions>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@leftSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Send available food" PCNStandardDependency="//@diagramEntities.1/@leftSurrogateInteractions.2
+     " PCNDelayedDependency="">
+    </rightSurrogateInteractions>
+    <rightSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="//@diagramEntities.0/@centerIndependentInteractionsActivities.0
+     " PCNNegativeDecisionSource="" action="Send available restaurants" PCNStandardDependency="//@diagramEntities.1/@leftSurrogateInteractions.0
+     " PCNDelayedDependency="">
+    </rightSurrogateInteractions>
+  </diagramEntities>
+  <diagramEntities name="Customer" order="2">
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@rightSurrogateInteractions.2
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Select restaurant" PCNStandardDependency="//@diagramEntities.0/@rightSurrogateInteractions.1
+     " PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@centerIndependentInteractionsActivities.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Write address" PCNStandardDependency="//@diagramEntities.0/@centerIndependentInteractionsActivities.0
+     " PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@rightSurrogateInteractions.1
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Select food" PCNStandardDependency="//@diagramEntities.1/@leftSurrogateInteractions.3
+     " PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@leftSurrogateInteractions.2
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Pay" PCNStandardDependency="//@diagramEntities.0/@centerIndependentInteractionsActivities.2
+     //@diagramEntities.1/@centerIndependentInteractionsActivities.1
+     " PCNDelayedDependency="">
+            <monetaryBenefits/>
+    </leftSurrogateInteractions>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Open Deliveroo App" PCNStandardDependency="//@diagramEntities.1/@leftSurrogateInteractions.1
+     " PCNDelayedDependency="">
+    </centerIndependentInteractionsActivities>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNWaitStep" PCNStandardDependencySource="//@diagramEntities.1/@leftSurrogateInteractions.3
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Wait" PCNStandardDependency="//@diagramEntities.1/@rightDirectInteractions.0
+     " PCNDelayedDependency="">
+            <delayTimeTags delayTime="30 min"/>
+    </centerIndependentInteractionsActivities>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.1/@centerIndependentInteractionsActivities.1
+     //@diagramEntities.3/@rightDirectInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Pick up" PCNStandardDependency="" PCNDelayedDependency="">
+            <syncTags/>
+    </rightDirectInteractions>
+  </diagramEntities>
+  <diagramEntities name="Restaurant" order="3">
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@leftSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Receive order" PCNStandardDependency="//@diagramEntities.2/@centerIndependentInteractionsActivities.0
+     " PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.2/@leftSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Cook food" PCNStandardDependency="" PCNDelayedDependency="//@diagramEntities.2/@rightDirectInteractions.0
+     ">
+    </centerIndependentInteractionsActivities>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="//@diagramEntities.2/@centerIndependentInteractionsActivities.0
+     " PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Deliver order" PCNStandardDependency="//@diagramEntities.3/@leftDirectInteractions.0
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+  </diagramEntities>
+  <diagramEntities name="Delivery Man" order="4">
+    <leftDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.2/@rightDirectInteractions.0
+     " PCNDelayedDependencySource="//@diagramEntities.3/@centerIndependentInteractionsActivities.0
+     " PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Pick up food" PCNStandardDependency="//@diagramEntities.3/@centerIndependentInteractionsActivities.1
+     " PCNDelayedDependency="">
+            <syncTags/>
+    </leftDirectInteractions>
+    <leftSurrogateInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.0/@rightSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Receive order" PCNStandardDependency="//@diagramEntities.3/@centerIndependentInteractionsActivities.0
+     " PCNDelayedDependency="">
+    </leftSurrogateInteractions>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@leftSurrogateInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Go to restaurant" PCNStandardDependency="" PCNDelayedDependency="//@diagramEntities.3/@leftDirectInteractions.0
+     ">
+    </centerIndependentInteractionsActivities>
+    <centerIndependentInteractionsActivities xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="//@diagramEntities.3/@leftDirectInteractions.0
+     " PCNDelayedDependencySource="" PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Go to destination" PCNStandardDependency="" PCNDelayedDependency="//@diagramEntities.3/@rightDirectInteractions.0
+     ">
+    </centerIndependentInteractionsActivities>
+    <rightDirectInteractions xsi:type="pcn:PCNStandardStep" PCNStandardDependencySource="" PCNDelayedDependencySource="//@diagramEntities.3/@centerIndependentInteractionsActivities.1
+     " PCNPositiveDecisionSource="" PCNNegativeDecisionSource="" action="Deliver order" PCNStandardDependency="//@diagramEntities.1/@rightDirectInteractions.0
+     " PCNDelayedDependency="">
+    </rightDirectInteractions>
+  </diagramEntities>
+</pcn:PCNDiagram>
