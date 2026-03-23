@@ -23,7 +23,7 @@ The tool is implemented in the [***pcn.generator.sce***](https://github.com/repo
 
 ## Smart Contract - PCN bridge
 
-To transform a smart contract into a PCN model, simply right-click on the target SmaC model in Eclipse's *Package Explorer* and select ***Generate PCN model*** to generate the resulting *.pcn* file in the *pcn-gen* directory.
+To transform a smart contract into a PCN model, simply right-click on the target Anonymous model in Eclipse's *Package Explorer* and select ***Generate PCN model*** to generate the resulting *.pcn* file in the *pcn-gen* directory.
 
 ![Smart Contract - PCN Bridge](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Videos/SmartContract-PCN_Demo.gif)
 
@@ -33,11 +33,11 @@ The tool is implemented in the [***sce.generator.pcn***](https://github.com/repo
 
 ### From process model to smart contract
 
-The next figura` provides a structured and concise overview of the algorithm implemented by the technological bridge, which facilitates the generation of a Solidity smart contract from a PCN model. The algorithm consists of a set of routines, referred to here as subprocesses.
+The next figure provides a structured and concise overview of the algorithm implemented by the technological bridge, which facilitates the generation of a Solidity smart contract from a PCN model. The algorithm consists of a set of routines, referred to here as subprocesses.
 
 ![Algorithm for SmaC model generation](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/AnonymizedGenProcessPCN.PNG)
 
-Before providing a detailed exposition of the process, it is useful to first outline the general overview of the generation method employed. The code generator extracts and processes the resource components of the PCN model, transforming them into Solidity code. To achieve this, the generator interacts with the interface manager when user design decisions are required, while the template manager supplies predefined code templates populated with data processed by the generator. By leveraging these components, the code generator systematically assembles the templates, ultimately producing the final source code file containing the Solidity smart contract. It is important to note that the contract generated through the execution of this algorithm is automatically persisted as an EMF model by the SmaC framework, as depicted in the upper part of Figure `PCN-SC_Comp`.
+Before providing a detailed exposition of the process, it is useful to first outline the general overview of the generation method employed. The code generator extracts and processes the resource components of the PCN model, transforming them into Solidity code. To achieve this, the generator interacts with the interface manager when user design decisions are required, while the template manager supplies predefined code templates populated with data processed by the generator. By leveraging these components, the code generator systematically assembles the templates, ultimately producing the final source code file containing the Solidity smart contract. It is important to note that the contract generated through the execution of this algorithm is automatically persisted as an EMF model by the Anonymous DSL framework, as depicted in the upper part of Figure `PCN-SC_Comp`.
 
 The process begins with the extraction of resources from the PCN model. The code generator first retrieves the resource diagram object along with a list of entity objects it contains. Next, the contract class name is generated to match the name of the input model file. The generator then invokes a subprocess responsible for generating the complete code. Once the code is generated, it is written into an empty file, finalizing the contract generation and completing the process. This subprocess is explained below, along with the rest of subprocess it bundles.
 
@@ -71,13 +71,13 @@ The process begins with the extraction of resources from the PCN model. The code
 
 ### Generating a PCN model from a Anonymous model
 
-Before digging into the transformation details, it is worth noting that EMF models are persisted as XMI (XML Metadata Interchange) files. This technological bridge is therefore in charge of generating an XMI file from the corresponding SmaC model. The algorithm implemented by the bridge to achieve this is illustrated in Figure `GenProcessPCN`.
+Before digging into the transformation details, it is worth noting that EMF models are persisted as XMI (XML Metadata Interchange) files. This technological bridge is therefore in charge of generating an XMI file from the corresponding Anonymous model. The algorithm implemented by the bridge to achieve this is illustrated in Figure `GenProcessPCN`.
 
 ![Algorithm for PCN model generation](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/AnonymizedGenProcessSC.PNG)
 
 Regarding the process described in the last section, the interface manager is no longer needed here, as all the data required to build the PCN model is contained in the smart contract. In this way, the code generator only relies on a template manager to obtain different template layers, which are then combined to compose the output model. 
 
-The process begins by receiving the SmaC model resource along with an empty file, where the XMI code of the resulting PCN model will be written. First, the code generator retrieves the contract object from the resource, and then another generator function is invoked to initiate the *Code subprocess*, which is explained below. This subprocess generates the entire XMI code as a template. Finally, the generated template containing the code is written into the empty file, effectively converting it into the output PCN model, thus completing the process.
+The process begins by receiving the Anonymous model resource along with an empty file, where the XMI code of the resulting PCN model will be written. First, the code generator retrieves the contract object from the resource, and then another generator function is invoked to initiate the *Code subprocess*, which is explained below. This subprocess generates the entire XMI code as a template. Finally, the generated template containing the code is written into the empty file, effectively converting it into the output PCN model, thus completing the process.
 
 - **Code:** This subprocess, derived from the main process, receives the contract object from the resource and is responsible for generating the full XMI code template. The process begins by retrieving the constructor object from the contract. From the constructor, the declaration lines representing the entities of the diagram are extracted. Next, the subprocess gathers a list of function objects that correspond to the steps in the process. Subsequently, it invokes the *Entities* subprocess, detailed below, to generate a template containing the XMI elements for the entities, including their associated sub-elements. This generated template is then passed to the template manager, which combines it with a base template that includes the XMI declaration for the output model. Once the final combined template is obtained, it is returned to the main process.
 
