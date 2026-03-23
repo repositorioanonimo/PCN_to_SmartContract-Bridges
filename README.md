@@ -35,7 +35,7 @@ The tool is implemented in the [***sce.generator.pcn***](https://github.com/repo
 
 The next figura` provides a structured and concise overview of the algorithm implemented by the technological bridge, which facilitates the generation of a Solidity smart contract from a PCN model. The algorithm consists of a set of routines, referred to here as subprocesses.
 
-![Algorithm for SmaC model generation](4.TECHNOLOGICAL_SOLUTION/IMAGES/GenProcessSC.png)
+![Algorithm for SmaC model generation](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/AnonymizedGenProcessPCN.PNG)
 
 Before providing a detailed exposition of the process, it is useful to first outline the general overview of the generation method employed. The code generator extracts and processes the resource components of the PCN model, transforming them into Solidity code. To achieve this, the generator interacts with the interface manager when user design decisions are required, while the template manager supplies predefined code templates populated with data processed by the generator. By leveraging these components, the code generator systematically assembles the templates, ultimately producing the final source code file containing the Solidity smart contract. It is important to note that the contract generated through the execution of this algorithm is automatically persisted as an EMF model by the SmaC framework, as depicted in the upper part of Figure `PCN-SC_Comp`.
 
