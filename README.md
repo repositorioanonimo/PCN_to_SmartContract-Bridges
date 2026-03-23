@@ -73,7 +73,7 @@ The process begins with the extraction of resources from the PCN model. The code
 
 Before digging into the transformation details, it is worth noting that EMF models are persisted as XMI (XML Metadata Interchange) files. This technological bridge is therefore in charge of generating an XMI file from the corresponding SmaC model. The algorithm implemented by the bridge to achieve this is illustrated in Figure `GenProcessPCN`.
 
-![Algorithm for PCN model generation](4.TECHNOLOGICAL_SOLUTION/IMAGES/GenProcessPCN.png)
+![Algorithm for PCN model generation](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/AnonymizedGenProcessSC.PNG)
 
 Regarding the process described in the last section, the interface manager is no longer needed here, as all the data required to build the PCN model is contained in the smart contract. In this way, the code generator only relies on a template manager to obtain different template layers, which are then combined to compose the output model. 
 
