@@ -29,7 +29,7 @@ To transform a smart contract (SmaC model) into a PCN model, simply right-click 
 
 The tool is implemented in the [***sce.generator.pcn***](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/tree/main/Plugins/org.xtext.ui/xtend-gen/sce/generator/pcn) package and follows this architecture:
 
-![Smart Contract - PCN Bridge Architecture](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/Oculto_SmartContract-PCN_Arch.PNG)
+![Smart Contract - PCN Bridge Architecture](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/BridgesArchInnovaservSmaC.PNG)
 
 ### From process model to SmaC model
 
