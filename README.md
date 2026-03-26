@@ -19,7 +19,7 @@ To transform a PCN model into a smart contract model, simply right-click on the 
 
 The tool is implemented in the [***pcn.generator.sce***](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/tree/main/Plugins/es.kybele.elastic.models.pcn/src/pcn/generator/sce) package and follows this architecture:
 
-![PCN - Smart Contract Bridge Architecture](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/Oculto_PCN-SmartContract_Arch.PNG)
+![PCN - Smart Contract Bridge Architecture](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/BridgesArchInnovaserv.PNG)
 
 ## SmaC model - PCN bridge
 
