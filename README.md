@@ -35,7 +35,7 @@ The tool is implemented in the [***sce.generator.pcn***](https://github.com/repo
 
 The next figure provides a structured and concise overview of the algorithm implemented by the technological bridge, which facilitates the generation of a SC model from a PCN model. The algorithm consists of a set of routines, referred to here as subprocesses.
 
-![Algorithm for SmaC model generation](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/GenProcessPCN.PNG)
+![Algorithm for SmaC model generation](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/GenProcessPCN.png)
 
 Before providing a detailed exposition of the process, it is useful to first outline the general overview of the generation method employed. The code generator extracts and processes the resource components of the PCN model, transforming them into Solidity code. To achieve this, the generator interacts with the interface manager when user design decisions are required, while the template manager supplies predefined code templates populated with data processed by the generator. By leveraging these components, the code generator systematically assembles the templates, ultimately producing the final source code file containing the Solidity smart contract. It is important to note that the contract generated through the execution of this algorithm is automatically persisted as an EMF model by the Anonymous DSL framework, as depicted in the upper part of Figure `PCN-SC_Comp`.
 
@@ -73,7 +73,7 @@ The process begins with the extraction of resources from the PCN model. The code
 
 Before digging into the transformation details, it is worth noting that EMF models are persisted as XMI (XML Metadata Interchange) files. This technological bridge is therefore in charge of generating an XMI file from the corresponding SmaC model. The algorithm implemented by the bridge to achieve this is illustrated in Figure `GenProcessPCN`.
 
-![Algorithm for PCN model generation](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/GenProcessSC.PNG)
+![Algorithm for PCN model generation](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/GenProcessSC.png)
 
 Regarding the process described in the last section, the interface manager is no longer needed here, as all the data required to build the PCN model is contained in the smart contract. In this way, the code generator only relies on a template manager to obtain different template layers, which are then combined to compose the output model. 
 
