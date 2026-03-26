@@ -31,9 +31,9 @@ The tool is implemented in the [***sce.generator.pcn***](https://github.com/repo
 
 ![Smart Contract - PCN Bridge Architecture](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/Oculto_SmartContract-PCN_Arch.PNG)
 
-### From process model to smart contract
+### From process model to SC model
 
-The next figure provides a structured and concise overview of the algorithm implemented by the technological bridge, which facilitates the generation of a Solidity smart contract from a PCN model. The algorithm consists of a set of routines, referred to here as subprocesses.
+The next figure provides a structured and concise overview of the algorithm implemented by the technological bridge, which facilitates the generation of a SC model from a PCN model. The algorithm consists of a set of routines, referred to here as subprocesses.
 
 ![Algorithm for SmaC model generation](https://github.com/repositorioanonimo/PCN_to_SmartContract-Bridges/blob/main/Images/AnonymizedGenProcessPCN.PNG)
 
@@ -69,7 +69,7 @@ The process begins with the extraction of resources from the PCN model. The code
 
 - **Tags:** This subprocess provides the Specific Step Subprocess with a template that emits events representing a step’s tags. It receives the step object and extracts the tag objects contained within it, storing them as a list. Regardless of whether this list is empty or populated, it is then sent to the template manager, which constructs the tags template by aggregating the code for all tags associated with the step. Finally, the generated template is sent back to the *Specific step subprocess*.
 
-### Generating a PCN model from a Anonymous model
+### Generating a PCN model from a SC model
 
 Before digging into the transformation details, it is worth noting that EMF models are persisted as XMI (XML Metadata Interchange) files. This technological bridge is therefore in charge of generating an XMI file from the corresponding Anonymous model. The algorithm implemented by the bridge to achieve this is illustrated in Figure `GenProcessPCN`.
 
